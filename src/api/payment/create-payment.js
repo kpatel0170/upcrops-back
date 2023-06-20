@@ -60,7 +60,6 @@ module.exports = exports = {
         paymentId: paymentIntent.id,
       };
 
-
       const createPayment = await global.models.GLOBAL.PAYMENT.create(
         paymentData
       );
@@ -78,6 +77,10 @@ module.exports = exports = {
           new: true,
         }
       );
+
+      let deleteCart = await global.models.GLOBAL.CART.findOneAndDelete({
+        _id: cid,
+      });
 
       if (createPayment) {
         let data4createResponseObject = {
