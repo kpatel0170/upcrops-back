@@ -29,12 +29,15 @@ module.exports = exports = {
 
     } else {
     try{
+
+
+
     const updateCart = await global.models.GLOBAL.CART.findOneAndUpdate(
       {
         _id: id,
       },
       {
-        $push: {
+        $set: {
           product: req.body.product,
         },
       },

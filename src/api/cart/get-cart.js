@@ -49,12 +49,21 @@ module.exports = exports = {
         .limit(limit)
         .skip(skip);
 
+        let total = 0;
+
+        for (let i = 0; i < card.length; i++) {
+          let findProduct = await global.models.GLOBAL.PRODUCT.findOne({
+            _id: card[i].product[0].pid,
+          });
+          total = total + findProduct.price;
+        }
+
       if (card.length > 0) {
         let data4createResponseObject = {
           req: req,
           result: 0,
           message: messages.ITEM_FOUND,
-          payload: { card, count },
+          payload: { card, count , total },
           logPayload: false,
         };
         return res

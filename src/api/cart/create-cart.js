@@ -28,7 +28,6 @@ module.exports = exports = {
         status : "pending",
       };
       const createCart = await global.models.GLOBAL.CART.create(cartData);
-      console.log("createCart", createCart);
 
       if (createCart) {
         let data4createResponseObject = {

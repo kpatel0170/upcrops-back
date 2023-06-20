@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const enums = require("../../../json/enums.json");
 
 module.exports = (connection) => {
-  const paymentSchema = new mongoose.Schema(
+  const plansSchema = new mongoose.Schema(
     {
       uid: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
      isFeatured: { type: Boolean, default: false },
@@ -22,5 +22,5 @@ module.exports = (connection) => {
   );
 
   // return logsSchema;
-  return connection.model("payment", paymentSchema, "payment");
+  return connection.model("plans", plansSchema, "plans");
 };

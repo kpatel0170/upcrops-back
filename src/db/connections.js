@@ -36,6 +36,7 @@ module.exports = async () => {
           CONNECTION_IN_AGTECH
         ),
         PAYMENT: require("../schema/payment/payment")(CONNECTION_IN_AGTECH),
+        PLANS: require("../schema/plans/plans")(CONNECTION_IN_AGTECH),
       },
     };
 
