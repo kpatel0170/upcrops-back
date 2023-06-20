@@ -31,7 +31,7 @@ module.exports = exports = {
         search._id = id;
       }
       let count = await global.models.GLOBAL.CART.find(search).count();
-      let product = await global.models.GLOBAL.CART.find(search)
+      let card = await global.models.GLOBAL.CART.find(search)
         .populate({
           path: "uid",
           model: "admin",
@@ -41,12 +41,12 @@ module.exports = exports = {
         .limit(limit)
         .skip(skip);
 
-      if (product.length > 0) {
+      if (card.length > 0) {
         let data4createResponseObject = {
           req: req,
           result: 0,
           message: messages.ITEM_FOUND,
-          payload: { product, count },
+          payload: { card, count },
           logPayload: false,
         };
         return res

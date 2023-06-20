@@ -4,6 +4,7 @@ const messages = require("../../../json/messages.json");
 const { log } = require("../../logger");
 const logger = require("../../logger");
 const utils = require("../../utils");
+const product = require("../../routes/product");
 
 // update editorService data
 module.exports = exports = {
@@ -11,34 +12,71 @@ module.exports = exports = {
   handler: async (req, res) => {
     let {id} = req.params;
     //check if abuse is already created
-    const checkProduct = await global.models.GLOBAL.CART.findOne({
+    const checkCart = await global.models.GLOBAL.CART.findOne({
       _id: id,
     });
 
-    if (!checkProduct) {
+    if (!checkCart) {
       let data4createResponseObject = {
         req: req,
         result: 1,
-        message: messages.PRODUCT_NOT_FOUND,
+        message: messages.CART_NOT_FOUND,
         payload: {},
       };
       return res
-
         .status(enums.HTTP_CODES.BAD_REQUEST)
         .json(utils.createResponseObject(data4createResponseObject));
 
     } else {
     try{
-    //update editorservice data
-    const updateProduct = await global.models.GLOBAL.CART.findByIdAndUpdate(
-      req.params.id, 
-      req.body , {new: true});
-    if (updateProduct) {
+
+    const updateCart = await global.models.GLOBAL.CART.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        $push: {
+          product: req.body.product,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    let total = 0;
+    
+    for (let i = 0; i < updateCart.product.length; i++) {
+      let findProduct = await global.models.GLOBAL.PRODUCT.findOne({
+        _id: updateCart.product[i].pid,
+      });
+      if(findProduct){
+        
+        total = total +( findProduct.price * updateCart.product[i].quantity );
+      }
+    }
+
+    const updateTotal = await global.models.GLOBAL.CART.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          total: total,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+     
+
+    if (updateCart) {
       const data4createResponseObject = {
         req: req,
         result: 200,
-        message: messages.PRODUCT_UPDATED,
-        payload: { updateProduct },
+        message: messages.CART_UPDATED,
+        payload: { updateCart:updateTotal },
         logPayload: false,
       };
       res

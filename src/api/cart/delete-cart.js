@@ -8,13 +8,13 @@ module.exports = exports = {
     const { id } = req.query;
     if (id) {
     try { 
-      let productRemoved = await global.models.GLOBAL.CART.findByIdAndRemove(id);
-      if (productRemoved) {
+      let cardRemoved = await global.models.GLOBAL.CART.findByIdAndRemove(id);
+      if (cardRemoved) {
         let data4createResponseObject = {
           req: req, 
           result: -1,
-          message: messages.PRODUCT_DELETED,
-          payload: {productRemoved},
+          message: messages.CART_DELETED,
+          payload: {cardRemoved},
           logPayload: false,
         };
        return res
@@ -24,7 +24,7 @@ module.exports = exports = {
         let data4createResponseObject = {
           req: req,
           result: 0,
-          message: messages.NOT_FOUND,
+          message: messages.CART_NOT_FOUND,
           payload: {},
           logPayload: false,
         };

@@ -21,21 +21,21 @@ module.exports = exports = {
       total,
     } = req.body;
     try {
-      let productData = {
+      let cartData = {
         uid: uid,
         product : product,
         total : total,
         status : "pending",
       };
-      const createProduct = await global.models.GLOBAL.CART.create(productData);
-      console.log("createProduct", createProduct);
+      const createCart = await global.models.GLOBAL.CART.create(cartData);
+      console.log("createCart", createCart);
 
-      if (createProduct) {
+      if (createCart) {
         let data4createResponseObject = {
           req: req,
           result: 0,
-          message: messages.PRODUCT_CREATED,
-          payload: { createProduct },
+          message: messages.CART_CREATED,
+          payload: { createCart },
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -44,7 +44,7 @@ module.exports = exports = {
         let data4createResponseObject = {
           req: req,
           result: 1,
-          message: messages.PRODUCT_NOT_CREATED,
+          message: messages.CART_NOT_CREATED,
           payload: {},
         };
         return res
