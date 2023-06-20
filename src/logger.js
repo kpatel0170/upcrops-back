@@ -57,15 +57,6 @@
          .padEnd(8)} ${getHostAndProcessInfo()} ${message}`;
      })
    ),
-   transports: [
-     new transports.Console({
-       format: NODE_ENV === "local" ? localFormat : formatRemote,
-       name: "log-console",
-       level: "debug",
-       handleExceptions: true,
-     }),
-     // SplunkLogger
-   ],
    exceptionHandlers: [
      // SplunkLoggerForExceptions
    ],
