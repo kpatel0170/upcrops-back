@@ -10,7 +10,7 @@ module.exports = exports = {
   // route validation
   validation: Joi.object({
     uid: Joi.string().required(),
-    cid: Joi.string().required(),
+    cid: Joi.string().allow(null),
     amount: Joi.number().required(),
     number: Joi.string().required(),
     expMonth: Joi.number().required(),
@@ -22,9 +22,8 @@ module.exports = exports = {
     const { uid, cid, number, expMonth, expYear, cvc } = req.body;
     try {
       const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
       //create token
-
+      
       const token = await stripe.tokens.create({
         card: {
           number: number,
@@ -33,38 +32,39 @@ module.exports = exports = {
           cvc: cvc,
         },
       });
-
+      
       let findCart = await global.models.GLOBAL.CART.findOne({
         _id: cid,
       });
-
+      
       //create customer
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: findCart.total * 100,
+        amount: findCart?.total * 100 || 100,
         currency: "usd",
         payment_method_types: ["card"],
         metadata: { integration_check: "accept_a_payment" },
         description: "Payment of Music, Album, Product or Service",
       });
+      
 
       //check is payment is successfull
-
       const payment = await stripe.paymentIntents.retrieve(paymentIntent.id, {
         expand: ["payment_method"],
       });
       let paymentData = {
         uid: uid,
         cid: cid,
-        amount: findCart.total,
+        amount: findCart?.total || 100,
         status: "completed",
         paymentId: paymentIntent.id,
       };
-
+      
       const createPayment = await global.models.GLOBAL.PAYMENT.create(
         paymentData
       );
-
-      let updateCartStatus = await global.models.GLOBAL.CART.findOneAndUpdate(
+      console.log("createPayment", createPayment);
+        if(cid != null)
+   {   let updateCartStatus = await global.models.GLOBAL.CART.findOneAndUpdate(
         {
           _id: cid,
         },
@@ -81,7 +81,7 @@ module.exports = exports = {
       let deleteCart = await global.models.GLOBAL.CART.findOneAndDelete({
         _id: cid,
       });
-
+}
       if (createPayment) {
         let data4createResponseObject = {
           req: req,
