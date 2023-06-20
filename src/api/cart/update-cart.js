@@ -68,7 +68,11 @@ module.exports = exports = {
       {
         new: true,
       }
-    );
+    ).populate({
+      path: "product.pid",
+      model: "product",
+    })
+    ;
      
 
     if (updateCart) {

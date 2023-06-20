@@ -25,7 +25,6 @@ module.exports = exports = {
       if (uid) {
         search.uid = uid;
       }
-
       let id = req.query.id;
       if (id) {
         search._id = id;
@@ -36,7 +35,10 @@ module.exports = exports = {
           path: "uid",
           model: "admin",
         })
-
+        .populate({
+          path: "product.pid",
+          model: "product",
+        })
         .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip);
