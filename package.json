@@ -39,6 +39,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "shortid": "^2.2.16",
+    "stripe": "^12.9.0",
     "winston": "^3.3.3",
     "winston-splunk-httplogger": "^2.4.1"
   },

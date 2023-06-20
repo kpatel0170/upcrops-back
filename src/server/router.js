@@ -10,6 +10,7 @@ module.exports = (app, logger) => {
 
   const notificationRoute = require("../routes/notification/index");
   const cartRoute = require("../routes/cart/index");
+  const paymentRoute = require("../routes/payment/index");
 
   // define all routes here
 
@@ -18,6 +19,7 @@ module.exports = (app, logger) => {
   app.use(["/api/v1/product"], productRoute);
   app.use(["/api/v1/notification"], notificationRoute);
   app.use(["/api/v1/cart"], cartRoute);
+  app.use(["/api/v1/payment"], paymentRoute);
 
   const { createResponseObject } = require("../utils");
 

@@ -35,6 +35,7 @@ module.exports = async () => {
         NOTIFICATION: require("../schema/notification/notification")(
           CONNECTION_IN_AGTECH
         ),
+        PAYMENT: require("../schema/payment/payment")(CONNECTION_IN_AGTECH),
       },
     };
 
