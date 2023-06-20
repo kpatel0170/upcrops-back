@@ -8,11 +8,8 @@ module.exports = (connection) => {
       cid: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
       amount : { type: Number },
       number : { type: String },
-      expMonth : { type: Number },
-      expYear : { type: Number },
-      paymentId : { type: String },
-      cvc : { type: String },
       status : { type: String },
+      paymentId : { type: String },
     },
     {
       autoCreate: true,

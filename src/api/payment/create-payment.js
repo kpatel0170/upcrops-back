@@ -57,7 +57,10 @@ module.exports = exports = {
         cid: cid,
         amount: findCart.total,
         status: "completed",
+        paymentId: paymentIntent.id,
       };
+
+
       const createPayment = await global.models.GLOBAL.PAYMENT.create(
         paymentData
       );
