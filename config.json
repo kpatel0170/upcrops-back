@@ -1,0 +1,17 @@
+{
+  "MONGODB": {
+    "GLOBAL": {
+      "DATABASE": {
+        "agriGen": {
+          "COLLECTION": {
+            "ADMIN": "admin",
+            "LOG": "log",
+            "ROLE": "role"
+          },
+          "NAME": "agriGen"
+        }
+      },
+      "USE_TEST_PIN": "true"
+    }
+  }
+}
