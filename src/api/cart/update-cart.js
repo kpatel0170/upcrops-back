@@ -29,7 +29,6 @@ module.exports = exports = {
 
     } else {
     try{
-
     const updateCart = await global.models.GLOBAL.CART.findOneAndUpdate(
       {
         _id: id,
@@ -44,6 +43,9 @@ module.exports = exports = {
       }
     );
 
+    console.log("updateCart", updateCart);
+    
+    
     let total = 0;
     
     for (let i = 0; i < updateCart.product.length; i++) {
@@ -55,7 +57,7 @@ module.exports = exports = {
         total = total +( findProduct.price * updateCart.product[i].quantity );
       }
     }
-
+    
     const updateTotal = await global.models.GLOBAL.CART.findOneAndUpdate(
       {
         _id: id,
@@ -68,19 +70,22 @@ module.exports = exports = {
       {
         new: true,
       }
-    ).populate({
-      path: "product.pid",
-      model: "product",
-    })
-    ;
-     
+      ).populate({
+        path: "product.pid",
+        model: "product",
+      })
+      ;
+          let getCart = await global.models.GLOBAL.CART.find({
+            uid: updateCart.uid,
+          });
+          console.log("getCart", getCart);
 
-    if (updateCart) {
+    if (getCart) {
       const data4createResponseObject = {
         req: req,
         result: 200,
         message: messages.CART_UPDATED,
-        payload: { updateCart:updateTotal },
+        payload: { updateCart:getCart ,count:getCart.length },
         logPayload: false,
       };
       res

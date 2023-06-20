@@ -29,6 +29,12 @@ module.exports = exports = {
       if (id) {
         search._id = id;
       }
+
+      if(req.query.qty =="true"){
+        
+      }
+
+      
       let count = await global.models.GLOBAL.CART.find(search).count();
       let card = await global.models.GLOBAL.CART.find(search)
         .populate({
