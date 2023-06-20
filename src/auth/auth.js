@@ -29,7 +29,6 @@ module.exports.setup = () => {
         email,
         type: type,
       } = jwt_payload;
-      console.log("JWT PAYLOAD", jwt_payload);
 
       const reqInfo = `REQ [${req.requestId}] [${req.method}] ${req.originalUrl}`;
       logger.info(
