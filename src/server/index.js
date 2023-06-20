@@ -7,6 +7,7 @@ const initMiddleware = require("./middlewares");
 const initRouter = require("./router");
 const http = require("http");
 const webSocket = require("./socket-io");
+const { cors } = require("../middlewares");
 
 
 global.config = {};
@@ -15,6 +16,7 @@ global.models = {};
 
 const runServer = async () => {
     const app = express();
+    app.use(cors);
     /* Logger */
     const logger = require("../logger");
     logger.info("Logger Initialized!");
