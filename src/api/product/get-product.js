@@ -9,8 +9,9 @@ const utils = require("../../utils");
 // User Profile update
 module.exports = exports = {
   handler: async (req, res) => {
-    const { user } = req;
     try {
+
+      console.log("req.body", req.body);
       req.query.page = req.query.page ? req.query.page : 1;
       req.query.limit = req.query.limit ? req.query.limit : 10000;
       let limit = parseInt(req.query.limit);
