@@ -40,7 +40,7 @@
   "FIELD_REQUIRE": "Email and Password is required to login",
   "GENERAL": "Sorry! Something went wrong with the request. Please try again later.",
   "INVALID_LOGIN": "Invalid phone number or password",
-  "ITEM_FOUND":"Item found",
+  "ITEM_FOUND": "Item found",
   "INVALID_EMAIL": "Invalid Email so please enter correct email",
   "INVALID_PASSWORD": "Invalid Password",
   "INVALID_PARAMETERS": "Sorry, the request could not be processed as because of invalid parameters.",

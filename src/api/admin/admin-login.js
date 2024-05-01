@@ -12,7 +12,7 @@ module.exports = exports = {
   // router validation
   validation: Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    password: Joi.string().required()
   }),
 
   // route handler
@@ -26,7 +26,7 @@ module.exports = exports = {
         result: -400,
         message: messages.FIELD_REQUIRE,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       res
         .status(enums.HTTP_CODES.OK)
@@ -36,44 +36,43 @@ module.exports = exports = {
     try {
       // check if user is already logged in
       const admin = await global.models.GLOBAL.ADMIN.findOne({
-        email: email,
+        email: email
       }).populate({
         path: "role",
         model: "role",
-        select: "_id roleName",
+        select: "_id roleName"
       });
-        if (admin.password !== password) {
-          const data4createResponseObject = {
-            req: req,
-            result: -1,
-            message: messages.USER_NOT_FOUND,
-            payload: {},
-            logPayload: false,
-          };
-          return res
-            .status(enums.HTTP_CODES.NOT_FOUND)
-            .json(utils.createResponseObject(data4createResponseObject));
-        }
-      
+      if (admin.password !== password) {
+        const data4createResponseObject = {
+          req: req,
+          result: -1,
+          message: messages.USER_NOT_FOUND,
+          payload: {},
+          logPayload: false
+        };
+        return res
+          .status(enums.HTTP_CODES.NOT_FOUND)
+          .json(utils.createResponseObject(data4createResponseObject));
+      }
+
       // check if admin is blocked or not
       if (admin.isDelete == true) {
         return res.status(enums.HTTP_CODES.NOT_FOUND).json({
           result: -1,
           message: messages.BLOCKED_BY_ADMIN,
           payload: {},
-          logPayload: false,
+          logPayload: false
         });
       }
       const rolename = await global.models.GLOBAL.ROLE.findOne({
-        _id: admin.role,
+        _id: admin.role
       });
       // create token
       if (rolename.roleName === "admin") {
         role = enums.USER_TYPE.ADMIN;
       } else if (rolename.roleName === "user") {
         role = enums.USER_TYPE.USER;
-      }
-      else if (rolename.roleName === "seller") {
+      } else if (rolename.roleName === "seller") {
         role = enums.USER_TYPE.SELLER;
       }
       const data4token = {
@@ -82,20 +81,20 @@ module.exports = exports = {
         environment: process.env.APP_ENVIRONMENT,
         email: email,
         scope: "login",
-        type: role,
+        type: role
       };
       delete admin._doc.password;
       const payload = {
         admin: admin,
         token: jwt.sign(data4token, jwtOptions.secretOrKey),
-        token_type: "Bearer",
+        token_type: "Bearer"
       };
       const data4createResponseObject = {
         req: req,
         result: 0,
         message: messages.LOGIN_SUCCESS,
         payload: payload,
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.OK)
@@ -109,11 +108,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

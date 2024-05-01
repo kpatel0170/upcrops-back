@@ -17,7 +17,7 @@ module.exports = exports = {
       let skip = (parseInt(req.query.page) - 1) * limit;
       let search = req.query.search
         ? {
-            $or: [{ text: { $regex: req.query.search, $options: "i" } }],
+            $or: [{ text: { $regex: req.query.search, $options: "i" } }]
           }
         : {};
 
@@ -34,7 +34,7 @@ module.exports = exports = {
       let plans = await global.models.GLOBAL.PLANS.find(search)
         .populate({
           path: "uid",
-          model: "admin",
+          model: "admin"
         })
         .sort({ createdAt: -1 })
         .limit(limit)
@@ -46,7 +46,7 @@ module.exports = exports = {
           result: 0,
           message: messages.ITEM_FOUND,
           payload: { plans, count },
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -57,7 +57,7 @@ module.exports = exports = {
           result: -1,
           message: messages.ITEM_NOT_FOUND,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -72,11 +72,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

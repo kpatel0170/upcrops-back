@@ -13,26 +13,21 @@ module.exports = exports = {
     name: Joi.string(),
     description: Joi.string(),
     price: Joi.number(),
-    spec: Joi.string(),
+    spec: Joi.string()
   }),
   handler: async (req, res) => {
     const { user } = req;
-    const {
-      uid,
-      name,
-      description,
-      price,
-      spec
-    } = req.body;
+    const { uid, name, description, price, spec } = req.body;
     try {
       let productData = {
         uid: uid,
-        name : name,
-        description : description,
-        price : price,
-        spec : spec,
+        name: name,
+        description: description,
+        price: price,
+        spec: spec
       };
-      const createProduct = await global.models.GLOBAL.PRODUCT.create(productData);
+      const createProduct =
+        await global.models.GLOBAL.PRODUCT.create(productData);
       console.log("createProduct", createProduct);
 
       if (createProduct) {
@@ -40,7 +35,7 @@ module.exports = exports = {
           req: req,
           result: 0,
           message: messages.PRODUCT_CREATED,
-          payload: { createProduct },
+          payload: { createProduct }
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -50,7 +45,7 @@ module.exports = exports = {
           req: req,
           result: 1,
           message: messages.PRODUCT_NOT_CREATED,
-          payload: {},
+          payload: {}
         };
         return res
           .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -62,11 +57,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

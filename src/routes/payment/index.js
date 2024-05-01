@@ -5,10 +5,6 @@ const { validate } = require("../../middlewares");
 const passport = require("passport");
 const { profileUploadS3 } = require("../../s3FileUpload");
 
-
-router.post(
-  "/addPayment",
-  paymentApi.addPayment.handler
-);
+router.post("/addPayment", paymentApi.addPayment.handler);
 
 module.exports = exports = router;

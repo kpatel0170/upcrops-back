@@ -17,7 +17,7 @@ functions.config4hashes = {
 
   saltBytes: 16,
 
-  iterations: 872791,
+  iterations: 872791
 };
 
 /* create response-wrapper object */
@@ -26,7 +26,7 @@ functions.createResponseObject = ({
   result = 0,
   message = "",
   payload = {},
-  logPayload = false,
+  logPayload = false
 }) => {
   let payload2log = {};
   if (logPayload) {

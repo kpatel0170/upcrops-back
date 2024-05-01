@@ -3,5 +3,5 @@ const adminSignup = require("./admin-signup");
 
 module.exports = exports = {
   adminLogin,
-  adminSignup,
+  adminSignup
 };

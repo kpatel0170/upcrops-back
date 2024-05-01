@@ -9,45 +9,44 @@ const cors = require("cors");
 const { NODE_ENV = "local" } = process.env;
 const isRemote = NODE_ENV !== "local";
 
-
 module.exports = (app, logger) => {
-    /* All middlewares */
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
-    const corsOpts = {
-        origin: "*",
-        methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-      };
-    app.use(cors(corsOpts));
-    
-    app.use(express.json({ limit: "10mb" })); // support parsing of application/json type post data
-    app.use(express.urlencoded({ extended: true })); // support parsing of application/x-www-form-urlencoded post data
-    app.use(helmet());
+  /* All middlewares */
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  const corsOpts = {
+    origin: "*",
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"]
+  };
+  app.use(cors(corsOpts));
 
-    const path2data = path.join(__dirname, "../data");
-    logger.info("Path to data: " + path2data);
-    app.use("/data", express.static(path2data));
+  app.use(express.json({ limit: "10mb" })); // support parsing of application/json type post data
+  app.use(express.urlencoded({ extended: true })); // support parsing of application/x-www-form-urlencoded post data
+  app.use(helmet());
 
-    const path2images = path.join(__dirname, "../assets/img");
-    logger.info("Path to images: " + path2images);
-    app.use("/images", express.static(path2images));
+  const path2data = path.join(__dirname, "../data");
+  logger.info("Path to data: " + path2data);
+  app.use("/data", express.static(path2data));
 
-    const path2styles = path.join(__dirname, "../assets/css");
-    logger.info("Path to styles: " + path2styles);
-    app.use("/styles", express.static(path2styles));
+  const path2images = path.join(__dirname, "../assets/img");
+  logger.info("Path to images: " + path2images);
+  app.use("/images", express.static(path2images));
 
-    /* Middleware - PassportJS */
-    app.use(passport.initialize());
-    require("../auth/auth").setup();
+  const path2styles = path.join(__dirname, "../assets/css");
+  logger.info("Path to styles: " + path2styles);
+  app.use("/styles", express.static(path2styles));
 
-    const middlewares = require("../middlewares");
+  /* Middleware - PassportJS */
+  app.use(passport.initialize());
+  require("../auth/auth").setup();
 
-    app.use(
-        (req,res,next)=>{
-            console.log("BODY", req.body)
-            next()
-        },
-        middlewares.handleSensitiveRequestParameters,
-        middlewares.logIncomingRequest
-    );
+  const middlewares = require("../middlewares");
+
+  app.use(
+    (req, res, next) => {
+      console.log("BODY", req.body);
+      next();
+    },
+    middlewares.handleSensitiveRequestParameters,
+    middlewares.logIncomingRequest
+  );
 };

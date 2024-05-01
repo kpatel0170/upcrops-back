@@ -5,19 +5,19 @@ module.exports = (connection) => {
   const productSchema = new mongoose.Schema(
     {
       uid: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
-      name : { type: String },
-      description : { type: String },
-      price : { type: Number },
-      spec : { type: String },
+      name: { type: String },
+      description: { type: String },
+      price: { type: Number },
+      spec: { type: String },
       image: [
         {
-          media: String, 
-        },
-      ],
+          media: String
+        }
+      ]
     },
     {
       autoCreate: true,
-      timestamps: true,
+      timestamps: true
     }
   );
 

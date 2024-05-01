@@ -9,5 +9,5 @@ module.exports = exports = {
   allRole,
   roleUpdate,
   deleteRole,
-  getRoleByName,
+  getRoleByName
 };

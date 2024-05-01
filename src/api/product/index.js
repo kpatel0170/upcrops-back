@@ -11,5 +11,5 @@ module.exports = exports = {
   updateProduct,
   deleteProduct,
   addImage,
-  deleteImage,
+  deleteImage
 };

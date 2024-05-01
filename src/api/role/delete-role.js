@@ -22,7 +22,7 @@ module.exports = exports = {
           result: -1,
           message: messages.INVALID_PARAMETERS,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -30,16 +30,15 @@ module.exports = exports = {
       }
 
       try {
-        const deletedRole = await global.models.GLOBAL.ROLE.findByIdAndRemove(
-          roleId
-        );
+        const deletedRole =
+          await global.models.GLOBAL.ROLE.findByIdAndRemove(roleId);
         if (!deletedRole) {
           let data4createResponseObject = {
             req: req,
             result: -1,
             message: messages.ITEM_NOT_FOUND,
             payload: {},
-            logPayload: false,
+            logPayload: false
           };
           res
             .status(enums.HTTP_CODES.NOT_FOUND)
@@ -50,7 +49,7 @@ module.exports = exports = {
             result: 0,
             message: messages.ROLE_DELETED,
             payload: {},
-            logPayload: false,
+            logPayload: false
           };
           res
             .status(enums.HTTP_CODES.OK)
@@ -65,7 +64,7 @@ module.exports = exports = {
           result: -1,
           message: messages.GENERAL,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         res
           .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
@@ -77,11 +76,11 @@ module.exports = exports = {
         result: -1,
         message: messages.NOT_ALLOWED,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.METHOD_NOT_ALLOWED)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

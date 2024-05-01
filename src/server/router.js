@@ -33,7 +33,7 @@ module.exports = (app, logger) => {
         result: -1,
         message: "Sorry! The request could not be processed!",
         payload: {},
-        logPayload: false,
+        logPayload: false
       })
     );
   });
@@ -48,7 +48,7 @@ module.exports = (app, logger) => {
       result: -999,
       message: messages.GENERAL,
       payload: {},
-      logPayload: false,
+      logPayload: false
     };
 
     return res
