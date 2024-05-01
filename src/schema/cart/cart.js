@@ -5,18 +5,18 @@ module.exports = (connection) => {
   const cartSchema = new mongoose.Schema(
     {
       uid: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
-      product :[
+      product: [
         {
           pid: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
-          quantity : { type: Number }
+          quantity: { type: Number }
         }
       ],
-      total : { type: Number },
-      status : { type: String },
+      total: { type: Number },
+      status: { type: String }
     },
     {
       autoCreate: true,
-      timestamps: true,
+      timestamps: true
     }
   );
 

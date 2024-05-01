@@ -25,10 +25,10 @@
     "UPGRADE_REQUIRED": 426,
     "VALIDATION_ERROR": 422
   },
-    "GENERAL": {
-      "name": "GENERAL",
-      "text": "General"
-    },
+  "GENERAL": {
+    "name": "GENERAL",
+    "text": "General"
+  },
   "OAUTH2_GRANT_TYPE": {
     "AUTHORIZATION_CODE": "authorization_code",
     "CLIENT_CREDENTIALS": "client_credentials"

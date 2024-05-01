@@ -5,19 +5,19 @@ module.exports = (connection) => {
   const plansSchema = new mongoose.Schema(
     {
       uid: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
-     isFeatured: { type: Boolean, default: false },
+      isFeatured: { type: Boolean, default: false },
       name: { type: String },
       description: [
         {
-          type: String,
-        },
+          type: String
+        }
       ],
       price: { type: Number },
-      durationType: { type: String },
+      durationType: { type: String }
     },
     {
       autoCreate: true,
-      timestamps: true,
+      timestamps: true
     }
   );
 

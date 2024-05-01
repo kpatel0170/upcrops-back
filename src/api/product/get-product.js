@@ -10,7 +10,6 @@ const utils = require("../../utils");
 module.exports = exports = {
   handler: async (req, res) => {
     try {
-
       console.log("req.body", req.body);
       req.query.page = req.query.page ? req.query.page : 1;
       req.query.limit = req.query.limit ? req.query.limit : 10000;
@@ -20,7 +19,7 @@ module.exports = exports = {
         ? {
             $or: [{ text: { $regex: req.query.search, $options: "i" } }]
           }
-        : { };
+        : {};
 
       let uid = req.query.uid;
       if (uid) {
@@ -35,7 +34,7 @@ module.exports = exports = {
       let product = await global.models.GLOBAL.PRODUCT.find(search)
         .populate({
           path: "uid",
-          model: "admin",
+          model: "admin"
         })
         .sort({ createdAt: -1 })
         .limit(limit)
@@ -47,7 +46,7 @@ module.exports = exports = {
           result: 0,
           message: messages.ITEM_FOUND,
           payload: { product, count },
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -58,7 +57,7 @@ module.exports = exports = {
           result: -1,
           message: messages.ITEM_NOT_FOUND,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -73,11 +72,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

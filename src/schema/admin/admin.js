@@ -26,14 +26,14 @@ module.exports = (connection) => {
             enums.USER_STATUS.DISABLED,
             enums.USER_STATUS.INACTIVE,
             enums.USER_STATUS.INVITED,
-            enums.USER_STATUS.UNBLOCKED,
-          ],
+            enums.USER_STATUS.UNBLOCKED
+          ]
         },
-        modificationDate: Date,
-      },
+        modificationDate: Date
+      }
     },
     {
-      autoCreate: true,
+      autoCreate: true
     }
   );
 

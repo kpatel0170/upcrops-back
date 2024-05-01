@@ -10,70 +10,72 @@ module.exports = exports = {
   // route validation
   validation: Joi.object({
     roleName: Joi.string().required(),
-    description: Joi.string().required(),
+    description: Joi.string().required()
   }),
 
   handler: async (req, res) => {
     const { user } = req;
-      const { roleName, description } = req.body;
-      if (!roleName || !description) {
+    const { roleName, description } = req.body;
+    if (!roleName || !description) {
+      let data4createResponseObject = {
+        req: req,
+        result: -1,
+        message: messages.INVALID_PARAMETERS,
+        payload: {},
+        logPayload: false
+      };
+      return res
+        .status(enums.HTTP_CODES.BAD_REQUEST)
+        .json(utils.createResponseObject(data4createResponseObject));
+    }
+    try {
+      let roleCreate = {
+        roleName: roleName,
+        description: description
+      };
+      let findRole = await global.models.GLOBAL.ROLE.findOne({
+        roleName: roleCreate.roleName
+      });
+      if (findRole) {
         let data4createResponseObject = {
           req: req,
           result: -1,
-          message: messages.INVALID_PARAMETERS,
+          message: messages.ROLE_ALREADY_EXISTS,
           payload: {},
-          logPayload: false,
-        };
-        return res
-          .status(enums.HTTP_CODES.BAD_REQUEST)
-          .json(utils.createResponseObject(data4createResponseObject));
-      }
-      try {
-        let roleCreate = {
-          roleName: roleName,
-          description: description,
-        };
-        let findRole = await global.models.GLOBAL.ROLE.findOne({roleName: roleCreate.roleName});
-        if (findRole) {
-          let data4createResponseObject = {
-            req: req,
-            result: -1,
-            message: messages.ROLE_ALREADY_EXISTS,
-            payload: {},
-            logPayload: false,
-          };
-          res
-            .status(enums.HTTP_CODES.NOT_ACCEPTABLE)
-            .json(utils.createResponseObject(data4createResponseObject));
-        } else {
-          const newRole = await global.models.GLOBAL.ROLE(roleCreate);
-          newRole.save().then(() => {
-            let data4createResponseObject = {
-              req: req,
-              result: 0,
-              message: messages.ITEM_INSERTED,
-              payload: {},
-              logPayload: false,
-            };
-            res
-              .status(enums.HTTP_CODES.OK)
-              .json(utils.createResponseObject(data4createResponseObject));
-          });
-        }
-      } catch (error) {
-        logger.error(
-          `${req.originalUrl} - Error encountered: ${error.message}\n${error.stack}`
-        );
-        let data4createResponseObject = {
-          req: req,
-          result: -1,
-          message: messages.GENERAL,
-          payload: {},
-          logPayload: false,
+          logPayload: false
         };
         res
-          .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
+          .status(enums.HTTP_CODES.NOT_ACCEPTABLE)
           .json(utils.createResponseObject(data4createResponseObject));
+      } else {
+        const newRole = await global.models.GLOBAL.ROLE(roleCreate);
+        newRole.save().then(() => {
+          let data4createResponseObject = {
+            req: req,
+            result: 0,
+            message: messages.ITEM_INSERTED,
+            payload: {},
+            logPayload: false
+          };
+          res
+            .status(enums.HTTP_CODES.OK)
+            .json(utils.createResponseObject(data4createResponseObject));
+        });
       }
-  },
+    } catch (error) {
+      logger.error(
+        `${req.originalUrl} - Error encountered: ${error.message}\n${error.stack}`
+      );
+      let data4createResponseObject = {
+        req: req,
+        result: -1,
+        message: messages.GENERAL,
+        payload: {},
+        logPayload: false
+      };
+      res
+        .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
+        .json(utils.createResponseObject(data4createResponseObject));
+    }
+  }
 };

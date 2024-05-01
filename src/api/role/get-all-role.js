@@ -11,11 +11,11 @@ module.exports = exports = {
     let criteria = {};
     if (roleId) {
       criteria = {
-        _id: roleId,
+        _id: roleId
       };
     }
     if (1) {
-        try {
+      try {
         let allRole = await global.models.GLOBAL.ROLE.find(criteria);
         if (!allRole) {
           let data4createResponseObject = {
@@ -23,7 +23,7 @@ module.exports = exports = {
             result: -1,
             message: messages.GENERAL,
             payload: {},
-            logPayload: false,
+            logPayload: false
           };
           res
             .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -34,7 +34,7 @@ module.exports = exports = {
             result: 0,
             message: messages.ROLE_FETCH_SUCCESS,
             payload: { allRole },
-            logPayload: false,
+            logPayload: false
           };
           res
             .status(enums.HTTP_CODES.OK)
@@ -49,24 +49,23 @@ module.exports = exports = {
           result: -1,
           message: messages.GENERAL,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         res
           .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
           .json(utils.createResponseObject(data4createResponseObject));
       }
-    } 
-    else {
+    } else {
       let data4createResponseObject = {
         req: req,
         result: -1,
         message: messages.NOT_ALLOWED,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.METHOD_NOT_ALLOWED)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

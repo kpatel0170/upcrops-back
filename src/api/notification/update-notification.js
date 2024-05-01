@@ -11,7 +11,9 @@ module.exports = exports = {
     let { id } = req.params;
     //check if abuse is already created
     if (id) {
-      let findNotification = await global.models.GLOBAL.NOTIFICATION.findOne({ _id: id });
+      let findNotification = await global.models.GLOBAL.NOTIFICATION.findOne({
+        _id: id
+      });
       if (findNotification) {
         try {
           //update editorservice data
@@ -27,7 +29,7 @@ module.exports = exports = {
               result: 200,
               message: messages.POST_UPDATED,
               payload: { updateNotification },
-              logPayload: false,
+              logPayload: false
             };
             res
               .status(enums.HTTP_CODES.OK)
@@ -40,7 +42,7 @@ module.exports = exports = {
             result: -1,
             message: messages.GENERAL,
             payload: {},
-            logPayload: false,
+            logPayload: false
           };
           return res
             .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
@@ -48,5 +50,5 @@ module.exports = exports = {
         }
       }
     }
-  },
+  }
 };

@@ -1,60 +1,56 @@
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-var AWS = require("aws-sdk");
+const AWS = require("aws-sdk");
+const logger = require("./logger");
 
 AWS.config.update({
   accessKeyId: process.env.ACCESSKEYID,
   secretAccessKey: process.env.SECRET_KEY,
-  region: process.env.REGION,
+  region: process.env.REGION
 });
 
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({
+  apiVersion: "2006-03-01" // Specify API version for consistency
+});
 
+// Configure multer for uploading to S3
 const profileUploadS3 = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.BUCKET,
-    // acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function (req, file, cb) {
-      console.log("files---------", file);
+      // Provide metadata for the file
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      console.log("files---------", file);
-      console.log("file-------", file, req.body);
-      cb(
-        null,
-        "profile/" +
-          "userimg" +
-          "-" +
-          Date.now().toString() +
-          Date.now().toString() +
-          "." +
-          file.originalname.split(".")[file.originalname.split(".").length - 1]
-      );
-    },
-  }),
+      // Generate a unique key for the uploaded file
+      const extension = file.originalname.split(".").pop();
+      const key = `profile/userimg-${Date.now()}.${extension}`;
+      cb(null, key);
+    }
+  })
 });
 
-
+// Function to delete media from S3
 const mediaDeleteS3 = function (filename, callback) {
-  console.log(filename);
-  var s3 = new AWS.S3();
-  var params = {
+  const params = {
     Bucket: process.env.BUCKET,
-    Key: filename,
+    Key: filename
   };
+  // Delete the object from S3
   s3.deleteObject(params, function (err, data) {
-    if (data) {
-      console.log("file deleted", data);
+    if (err) {
+      logger.error("Error deleting file:", err);
+      callback(err);
     } else {
-      console.log("err in delete object", err);
+      logger.info("File deleted successfully:", data);
+      callback(null, data);
     }
   });
 };
 
 module.exports = {
   profileUploadS3,
-  mediaDeleteS3,
+  mediaDeleteS3
 };

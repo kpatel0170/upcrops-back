@@ -15,7 +15,7 @@ module.exports = exports = {
     number: Joi.string().required(),
     expMonth: Joi.number().required(),
     expYear: Joi.number().required(),
-    cvc: Joi.string().required(),
+    cvc: Joi.string().required()
   }),
   handler: async (req, res) => {
     const { user } = req;
@@ -23,71 +23,69 @@ module.exports = exports = {
     try {
       const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
       //create token
-      
+
       const token = await stripe.tokens.create({
         card: {
           number: number,
           exp_month: expMonth,
           exp_year: expYear,
-          cvc: cvc,
-        },
+          cvc: cvc
+        }
       });
-      
+
       let findCart = await global.models.GLOBAL.CART.findOne({
-        _id: cid,
+        _id: cid
       });
-      
+
       //create customer
       const paymentIntent = await stripe.paymentIntents.create({
         amount: findCart?.total * 100 || 100,
         currency: "usd",
         payment_method_types: ["card"],
         metadata: { integration_check: "accept_a_payment" },
-        description: "Payment of Music, Album, Product or Service",
+        description: "Payment of Music, Album, Product or Service"
       });
-      
 
       //check is payment is successfull
       const payment = await stripe.paymentIntents.retrieve(paymentIntent.id, {
-        expand: ["payment_method"],
+        expand: ["payment_method"]
       });
       let paymentData = {
         uid: uid,
         cid: cid,
         amount: findCart?.total || 100,
         status: "completed",
-        paymentId: paymentIntent.id,
+        paymentId: paymentIntent.id
       };
-      
-      const createPayment = await global.models.GLOBAL.PAYMENT.create(
-        paymentData
-      );
-      console.log("createPayment", createPayment);
-        if(cid != null)
-   {   let updateCartStatus = await global.models.GLOBAL.CART.findOneAndUpdate(
-        {
-          _id: cid,
-        },
-        {
-          $set: {
-            status: "completed",
-          },
-        },
-        {
-          new: true,
-        }
-      );
 
-      let deleteCart = await global.models.GLOBAL.CART.findOneAndDelete({
-        _id: cid,
-      });
-}
+      const createPayment =
+        await global.models.GLOBAL.PAYMENT.create(paymentData);
+      console.log("createPayment", createPayment);
+      if (cid != null) {
+        let updateCartStatus = await global.models.GLOBAL.CART.findOneAndUpdate(
+          {
+            _id: cid
+          },
+          {
+            $set: {
+              status: "completed"
+            }
+          },
+          {
+            new: true
+          }
+        );
+
+        let deleteCart = await global.models.GLOBAL.CART.findOneAndDelete({
+          _id: cid
+        });
+      }
       if (createPayment) {
         let data4createResponseObject = {
           req: req,
           result: 0,
           message: messages.PAYMENT_CREATED,
-          payload: { createPayment },
+          payload: { createPayment }
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -97,7 +95,7 @@ module.exports = exports = {
           req: req,
           result: 1,
           message: messages.PAYMENT_NOT_CREATED,
-          payload: {},
+          payload: {}
         };
         return res
           .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -109,11 +107,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

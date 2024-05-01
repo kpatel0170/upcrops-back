@@ -3,5 +3,5 @@ const updateNotification = require("./update-notification");
 
 module.exports = exports = {
   getNotification,
-  updateNotification,
+  updateNotification
 };

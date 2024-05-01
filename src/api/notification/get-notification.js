@@ -17,7 +17,7 @@ module.exports = exports = {
       let skip = (parseInt(req.query.page) - 1) * limit;
       let search = req.query.search
         ? {
-            $or: [{ text: { $regex: req.query.search, $options: "i" } }],
+            $or: [{ text: { $regex: req.query.search, $options: "i" } }]
           }
         : {};
 
@@ -29,7 +29,6 @@ module.exports = exports = {
       let aid = req.query.aid;
       if (aid) {
         saerch.aid = aid;
-        
       }
 
       let pid = req.query.pid;
@@ -51,19 +50,19 @@ module.exports = exports = {
       let notification = await global.models.GLOBAL.NOTIFICATION.find(search)
         .populate({
           path: "uid",
-          model: "admin",
+          model: "admin"
         })
         .populate({
           path: "aid",
-          model: "admin",
+          model: "admin"
         })
         .populate({
           path: "pid",
-          model: "post",
+          model: "post"
         })
         .populate({
           path: "eid",
-          model: "event",
+          model: "event"
         })
         .sort({ createdAt: -1 })
         .limit(limit)
@@ -75,7 +74,7 @@ module.exports = exports = {
           result: 0,
           message: messages.ITEM_FOUND,
           payload: { notification, count },
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -86,7 +85,7 @@ module.exports = exports = {
           result: -1,
           message: messages.ITEM_NOT_FOUND,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -101,11 +100,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

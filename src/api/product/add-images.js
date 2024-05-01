@@ -23,10 +23,10 @@ module.exports = exports = {
 
       let findPost = await global.models.GLOBAL.PRODUCT.findByIdAndUpdate(
         {
-          _id: id,
+          _id: id
         },
         {
-          $push: { image: multiImages },
+          $push: { image: multiImages }
         },
         { new: true }
       );
@@ -35,7 +35,7 @@ module.exports = exports = {
         result: 0,
         message: messages.ITEM_UPDATED,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       res
         .status(enums.HTTP_CODES.OK)
@@ -50,11 +50,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

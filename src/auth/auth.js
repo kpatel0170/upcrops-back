@@ -17,7 +17,6 @@ const logger = require("../logger");
 const { NODE_ENV = "local" } = process.env;
 
 module.exports.setup = () => {
-
   passport.use(
     new JwtStrategy(jwtOptions, (req, jwt_payload, next) => {
       const {
@@ -27,7 +26,7 @@ module.exports.setup = () => {
         phone,
         scope,
         email,
-        type: type,
+        type: type
       } = jwt_payload;
 
       const reqInfo = `REQ [${req.requestId}] [${req.method}] ${req.originalUrl}`;

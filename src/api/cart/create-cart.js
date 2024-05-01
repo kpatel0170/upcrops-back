@@ -9,23 +9,19 @@ const utils = require("../../utils");
 module.exports = exports = {
   // route validation
   validation: Joi.object({
-    uid : Joi.string().required(),
-    product : Joi.array(),
-    total : Joi.number()
+    uid: Joi.string().required(),
+    product: Joi.array(),
+    total: Joi.number()
   }),
   handler: async (req, res) => {
     const { user } = req;
-    const {
-      uid,
-      product,
-      total,
-    } = req.body;
+    const { uid, product, total } = req.body;
     try {
       let cartData = {
         uid: uid,
-        product : product,
-        total : total,
-        status : "pending",
+        product: product,
+        total: total,
+        status: "pending"
       };
       const createCart = await global.models.GLOBAL.CART.create(cartData);
 
@@ -34,7 +30,7 @@ module.exports = exports = {
           req: req,
           result: 0,
           message: messages.CART_CREATED,
-          payload: { createCart },
+          payload: { createCart }
         };
         return res
           .status(enums.HTTP_CODES.OK)
@@ -44,7 +40,7 @@ module.exports = exports = {
           req: req,
           result: 1,
           message: messages.CART_NOT_CREATED,
-          payload: {},
+          payload: {}
         };
         return res
           .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -56,11 +52,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

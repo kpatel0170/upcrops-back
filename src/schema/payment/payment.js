@@ -6,14 +6,14 @@ module.exports = (connection) => {
     {
       uid: { type: mongoose.Schema.Types.ObjectId, ref: "admin" },
       cid: { type: mongoose.Schema.Types.ObjectId, ref: "cart" },
-      amount : { type: Number },
-      number : { type: String },
-      status : { type: String },
-      paymentId : { type: String },
+      amount: { type: Number },
+      number: { type: String },
+      status: { type: String },
+      paymentId: { type: String }
     },
     {
       autoCreate: true,
-      timestamps: true,
+      timestamps: true
     }
   );
 

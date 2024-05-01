@@ -17,12 +17,13 @@ module.exports = exports = {
     password: Joi.string().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    role: Joi.string().required(),
+    role: Joi.string().required()
   }),
 
   // route handler
   handler: async (req, res) => {
-    let { email, password, firstName, role ,lastName } = req.body;
+    let { email, password, firstName, role, lastName } = req.body;
+
     if (!email || !password) {
       logger.error(messages.FILL_DETAILS);
       const FILL_DETAILS = {
@@ -30,7 +31,7 @@ module.exports = exports = {
         result: -400,
         message: messages.FILL_DETAILS,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       res
         .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -39,7 +40,7 @@ module.exports = exports = {
     }
     // check if email already exist
     const emailExist = await global.models.GLOBAL.ADMIN.findOne({
-      email: email,
+      email: email
     });
 
     if (emailExist) {
@@ -48,7 +49,7 @@ module.exports = exports = {
         result: -400,
         message: messages.EXISTS_EMAIL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       res
         .status(enums.HTTP_CODES.DUPLICATE_VALUE)
@@ -58,7 +59,7 @@ module.exports = exports = {
 
     /* Save into mongodb */
     const rolename = await global.models.GLOBAL.ROLE.findOne({
-      _id: role,
+      _id: role
     });
 
     const uid = new ObjectId();
@@ -71,14 +72,18 @@ module.exports = exports = {
       role: rolename,
       status: {
         name:
-          rolename.roleName === "admin" || rolename.roleName === "user" || rolename.roleName === "seller"
+          rolename.roleName === "admin" ||
+          rolename.roleName === "user" ||
+          rolename.roleName === "seller"
             ? enums.USER_STATUS.ACTIVE
             : enums.USER_STATUS.INACTIVE,
-        modificationDate: Date.now().toString(),
+        modificationDate: Date.now().toString()
       },
       modificationDate: Date.now(),
-      registractionDate: Date.now(),
+      registractionDate: Date.now()
     };
+
+    console.log(adminObject);
 
     const newAdmin = global.models.GLOBAL.ADMIN(adminObject);
     try {
@@ -92,7 +97,7 @@ module.exports = exports = {
         result: -1,
         message: messages.FAILED_REGISTRATION,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
@@ -102,30 +107,30 @@ module.exports = exports = {
     const data4token = {
       email: email,
       date: new Date(),
-      scope: "verification",
+      scope: "verification"
     };
     const payload = {
-      admin:{
+      admin: {
         _id: adminObject._id,
         email: adminObject.email,
         firstName: adminObject.firstName,
         lastName: adminObject.lastName,
         avatarName: adminObject.avatarName,
         avatarPic: adminObject.avatarPic,
-        role: adminObject.role,
+        role: adminObject.role
       },
       token: jwt.sign(data4token, jwtOptions.secretOrKey),
-      token_type: "Bearer",
+      token_type: "Bearer"
     };
     const data4createResponseObject = {
       req: req,
       result: 0,
       message: messages.REGISTER_SUCCESS,
       payload: payload,
-      logPayload: false,
+      logPayload: false
     };
     return res
       .status(enums.HTTP_CODES.OK)
       .json(utils.createResponseObject(data4createResponseObject));
-  },
+  }
 };

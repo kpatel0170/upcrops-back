@@ -14,7 +14,7 @@ module.exports = exports = {
     if (roleStatus) {
       if (roleName) {
         criteria = {
-          roleName: roleName,
+          roleName: roleName
         };
 
         try {
@@ -27,7 +27,7 @@ module.exports = exports = {
               result: -1,
               message: messages.GENERAL,
               payload: {},
-              logPayload: false,
+              logPayload: false
             };
             res
               .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -38,7 +38,7 @@ module.exports = exports = {
               result: 0,
               message: messages.ROLE_FETCH_SUCCESS,
               payload: { role: allRole },
-              logPayload: false,
+              logPayload: false
             };
             res
               .status(enums.HTTP_CODES.OK)
@@ -53,7 +53,7 @@ module.exports = exports = {
             result: -1,
             message: messages.GENERAL,
             payload: {},
-            logPayload: false,
+            logPayload: false
           };
           res
             .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
@@ -65,7 +65,7 @@ module.exports = exports = {
           result: -1,
           message: messages.INVALID_PARAMETER,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         return res
           .status(enums.HTTP_CODES.METHOD_NOT_ALLOWED)
@@ -77,11 +77,11 @@ module.exports = exports = {
         result: -1,
         message: messages.NOT_ALLOWED,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.METHOD_NOT_ALLOWED)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };

@@ -15,16 +15,16 @@ module.exports = exports = {
   // route handler
   handler: async (req, res) => {
     const { pid, id } = req.query;
-  
-    const { user } = req; 
-   
+
+    const { user } = req;
+
     if (!id || !pid) {
       const data4createResponseObject = {
         req: req,
         result: -1,
         message: messages.FILL_DETAILS,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
       return res
         .status(enums.HTTP_CODES.BAD_REQUEST)
@@ -37,9 +37,9 @@ module.exports = exports = {
         {
           $pull: {
             image: {
-              _id: id,
-            },
-          },
+              _id: id
+            }
+          }
         },
         { new: true }
       );
@@ -49,9 +49,9 @@ module.exports = exports = {
           result: 0,
           message: messages.ITEM_NOT_FOUND,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
-       return res
+        return res
           .status(enums.HTTP_CODES.OK)
           .json(utils.createResponseObject(data4createResponseObject));
       } else {
@@ -60,12 +60,12 @@ module.exports = exports = {
           result: 0,
           message: messages.IMAGE_DELETE,
           payload: {},
-          logPayload: false,
+          logPayload: false
         };
         res
           .status(enums.HTTP_CODES.OK)
           .json(utils.createResponseObject(data4createResponseObject));
-          return;
+        return;
       }
     } catch (error) {
       logger.error(
@@ -76,11 +76,11 @@ module.exports = exports = {
         result: -1,
         message: messages.GENERAL,
         payload: {},
-        logPayload: false,
+        logPayload: false
       };
-     return res
+      return res
         .status(enums.HTTP_CODES.INTERNAL_SERVER_ERROR)
         .json(utils.createResponseObject(data4createResponseObject));
     }
-  },
+  }
 };
