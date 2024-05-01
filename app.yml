@@ -1,6 +1,6 @@
 apps:
     -
-        name: agriGen-backend
+        name: upCrops-backend
         restart_delay: 100
         script: npm run start
         autorestart: true

@@ -2,13 +2,13 @@
   "MONGODB": {
     "GLOBAL": {
       "DATABASE": {
-        "agriGen": {
+        "upCrops": {
           "COLLECTION": {
             "ADMIN": "admin",
             "LOG": "log",
             "ROLE": "role"
           },
-          "NAME": "agriGen"
+          "NAME": "upCrops"
         }
       },
       "USE_TEST_PIN": "true"
